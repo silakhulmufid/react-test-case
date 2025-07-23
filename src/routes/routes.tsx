@@ -1,6 +1,6 @@
 import { lazy } from "react"
 import type { RouteObject } from "react-router"
-import MainLayout from "../layouts/MainLayout"
+import MainLayout from "../layouts/main-layout"
 
 const Home = lazy(() => import("../pages/home"))
 const Article = lazy(() => import("../pages/article"))

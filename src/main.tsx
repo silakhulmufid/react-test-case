@@ -4,7 +4,7 @@ import { HelmetProvider } from "react-helmet-async"
 import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router"
 import "./globals.css"
-import AppRoutes from "./routes/AppRoutes.tsx"
+import AppRoutes from "./routes/app-routes.tsx"
 import { store } from "./store"
 
 createRoot(document.getElementById("root")!).render(
