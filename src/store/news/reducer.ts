@@ -1,5 +1,8 @@
 import {
   GET_ARTICLE,
+  GET_INFINITE_NEWS,
+  GET_INFINITE_NEWS_FAILED,
+  GET_INFINITE_NEWS_SUCCESS,
   GET_NEWS,
   GET_NEWS_FAILED,
   GET_NEWS_SUCCESS,
@@ -9,17 +12,24 @@ import {
 } from "./constant";
 import type { IActionGetArticle, IActionGetNews, IResponseGetNews } from "./type";
 
+const initData = {
+  articles: [],
+  status: null,
+  totalResults: null
+}
+
 const initialState = {
   loading: false,
+  infiniteLoading: false,
   error: null,
-  data: [],
-  headlines: [],
-  business: [],
-  entertainment: [],
-  health: [],
-  science: [],
-  sports: [],
-  technology: [],
+  data: initData,
+  headlines: initData,
+  business: initData,
+  entertainment: initData,
+  health: initData,
+  science: initData,
+  sports: initData,
+  technology: initData,
   article: null,
 };
 
@@ -33,6 +43,7 @@ export const newsReducer = (
         ...state,
         loading: true,
       };
+    
 
     case GET_NEWS_SUCCESS:
       const data = {
@@ -83,6 +94,64 @@ export const newsReducer = (
         ...state,
         loading: false,
         data: null,
+        error: action.error,
+      };
+    
+    case GET_INFINITE_NEWS:
+      return {
+        ...state,
+        infiniteLoading: true,
+      };
+    
+
+    case GET_INFINITE_NEWS_SUCCESS:
+      const infiniteData = {
+        ...state,
+        infiniteLoading: false,
+      };
+
+      switch (action.payload?.q) {
+        case "business":
+          return {
+            ...infiniteData,
+            business: action.response,
+          };
+        case "entertainment":
+          return {
+            ...infiniteData,
+            entertainment: action.response,
+          };
+        case "health":
+          return {
+            ...infiniteData,
+            health: action.response,
+          };
+        case "science":
+          return {
+            ...infiniteData,
+            science: action.response,
+          };
+        case "sports":
+          return {
+            ...infiniteData,
+            sports: action.response,
+          };
+        case "technology":
+          return {
+            ...infiniteData,
+            technology: action.response,
+          };
+        default:
+          return {
+            ...infiniteData,
+            data: action.response,
+          };
+      }
+
+    case GET_INFINITE_NEWS_FAILED:
+      return {
+        ...state,
+        ...initialState,
         error: action.error,
       };
 

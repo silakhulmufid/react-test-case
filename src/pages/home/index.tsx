@@ -1,15 +1,26 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { getNews, getNewsTopHeadlines } from "../../store/news/action";
+import {
+  getInfiniteNews,
+  getNews,
+  getNewsTopHeadlines,
+} from "../../store/news/action";
 import { Flex, Row, Col } from "antd";
 import { useParams } from "react-router";
-import type { NewsData, TCategory } from "../../store/news/type";
+import type {
+  IMetaNewsResponse,
+  NewsData,
+  TCategory,
+} from "../../store/news/type";
 import { Loader } from "../../components";
 import HorizontalCard from "../../components/cards/horizontal-card";
 import VerticalCard from "../../components/cards/vertical-card";
 import { useBreakpoint } from "../../hooks";
+import { InfiniteScrollTrigger } from "../../components/infinite-scroll";
+import dayjs from "dayjs";
 
 export default function Home() {
+  const [dataSize, setDataSize] = useState<number>(10);
   const news = useAppSelector((state) => state.news);
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -18,12 +29,16 @@ export default function Home() {
   const dataKey = category === "news" ? "data" : category;
 
   useEffect(() => {
+    setDataSize(9);
+
     dispatch(
       getNews({
         q: category as TCategory,
-        from: "2025-07-20",
-        to: "2025-07-22",
+        from: dayjs().subtract(20, "day").format("YYYY-MM-DD"),
+        to: dayjs().format("YYYY-MM-DD"),
         sortBy: "popularity",
+        pageSize: 10,
+        page: 1,
       })
     );
   }, [dispatch, category]);
@@ -38,29 +53,62 @@ export default function Home() {
     );
   }, [dispatch, category]);
 
+  const currentData: IMetaNewsResponse = news?.[dataKey];
+  const hasMore = currentData?.articles
+    ? (currentData?.articles?.length || 0) < (currentData.totalResults || 0) &&
+      dataSize < 100
+    : false;
+
+  const loadMoreItems = useCallback(async () => {
+    const newSize = dataSize + 30;
+    const checkedSize = newSize > 100 ? 100 : newSize;
+    setDataSize(checkedSize);
+
+    if (hasMore) {
+      dispatch(
+        getInfiniteNews({
+          q: category as TCategory,
+          from: dayjs().subtract(20, "day").format("YYYY-MM-DD"),
+          to: dayjs().format("YYYY-MM-DD"),
+          sortBy: "popularity",
+          pageSize: checkedSize,
+          page: 1,
+        })
+      );
+    }
+  }, [dispatch, category, dataSize]);
+
   if (news.loading) {
     return <Loader />;
   }
 
   return (
-    <div className="relative space-y-4 min-h-screen w-screen max-w-6xl overflow-hidden px-4 py-28 md:px-20">
+    <div className="relative space-y-4 min-h-screen w-screen max-w-6xl overflow-hidden px-4 pt-28 pb-16 md:px-20">
       <Row gutter={[16, 16]}>
         <Col span={24} lg={14}>
-          <VerticalCard article={news.headlines?.[0] || ({} as NewsData)} />
+          <VerticalCard
+            article={news?.headlines?.articles?.[0] || ({} as NewsData)}
+          />
         </Col>
         <Col span={24} lg={10} className="space-y-4">
-          {news.headlines?.map((article: NewsData, index: number) => {
-            return (
-              <Flex key={index} vertical gap={4}>
-                <HorizontalCard article={article} imagePosition="left" size="small" />
-              </Flex>
-            );
-          })}
+          {news?.headlines?.articles?.map(
+            (article: NewsData, index: number) => {
+              return (
+                <Flex key={index} vertical gap={4}>
+                  <HorizontalCard
+                    article={article}
+                    imagePosition="left"
+                    size="small"
+                  />
+                </Flex>
+              );
+            }
+          )}
         </Col>
       </Row>
       <Row gutter={[16, 16]}>
-        {(Array.isArray(news[dataKey]) ? news[dataKey] : []).map((article: NewsData, index: number) => {
-          if ((index % 5 === 0 && index <= 10)) {
+        {currentData?.articles?.map((article: NewsData, index: number) => {
+          if (index % 5 === 0 && index <= 10) {
             return (
               <Col key={index} span={24}>
                 <HorizontalCard article={article} className="hidden md:flex" />
@@ -70,7 +118,7 @@ export default function Home() {
           }
           if (!(index % 5 === 0) && index <= 20) {
             return (
-              <Col key={index} span={12} md={6} >
+              <Col key={index} span={12} md={6}>
                 <VerticalCard article={article} />
               </Col>
             );
@@ -79,18 +127,35 @@ export default function Home() {
           if (!md) {
             return (
               <Flex key={index} vertical gap={4}>
-                <HorizontalCard article={article} imagePosition="left" size="small" />
+                <HorizontalCard
+                  article={article}
+                  imagePosition="left"
+                  size="small"
+                />
               </Flex>
             );
           }
 
           return (
             <Col key={index} span={24}>
-              <HorizontalCard article={article} imagePosition="left" imageContainerClassName="h-40" />
+              <HorizontalCard
+                article={article}
+                imagePosition="left"
+                imageContainerClassName="h-40"
+              />
             </Col>
-          )
+          );
         })}
       </Row>
+      {(currentData?.articles?.length || 0) > 0 && (
+        <InfiniteScrollTrigger
+          onLoadMore={loadMoreItems}
+          hasMore={hasMore}
+          isLoading={news.infiniteLoading}
+          loadingText="Loading more news..."
+          endText="No more news available"
+        />
+      )}
     </div>
   );
 }

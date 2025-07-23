@@ -42,17 +42,24 @@ export interface IActionGetArticle extends Omit<IActionGetNews, "payload"> {
 
 export interface IResponseGetNews {
   loading: boolean;
+  infiniteLoading: boolean;
   error: string | null | undefined;
-  data: NewsData[] | null | undefined;
-  headlines: NewsData[] | null | undefined;
-  business: NewsData[] | null | undefined;
-  entertainment: NewsData[] | null | undefined;
-  health: NewsData[] | null | undefined;
-  science: NewsData[] | null | undefined;
-  sports: NewsData[] | null | undefined;
-  technology: NewsData[] | null | undefined;
+  data: IMetaNewsResponse | null | undefined;
+  headlines: IMetaNewsResponse | null | undefined;
+  business: IMetaNewsResponse | null | undefined;
+  entertainment: IMetaNewsResponse | null | undefined;
+  health: IMetaNewsResponse | null | undefined;
+  science: IMetaNewsResponse | null | undefined;
+  sports: IMetaNewsResponse | null | undefined;
+  technology: IMetaNewsResponse | null | undefined;
   article: NewsData | null | undefined;
   [key: string]: any; // For dynamic categories
+}
+
+export interface IMetaNewsResponse {
+  articles: NewsData[] | null | undefined;
+  status: string | null | undefined;
+  totalResults: number | null | undefined;
 }
 
 export interface NewsData {
