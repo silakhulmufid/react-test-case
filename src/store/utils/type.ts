@@ -1,8 +1,8 @@
 export interface UtilsData {
-  push?: string;
+  push?: string
 }
 
 export interface UtilsAction {
-  type: string;
-  data: UtilsData;
+  type: string
+  data: UtilsData
 }

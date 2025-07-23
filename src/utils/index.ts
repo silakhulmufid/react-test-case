@@ -1,2 +1,2 @@
-export * from "./getTimeAgoString";
-export * from "./createSlug";
+export * from "./createSlug"
+export * from "./getTimeAgoString"

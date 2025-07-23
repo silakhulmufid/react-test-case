@@ -1,3 +1,3 @@
-import { watcherNews } from "./news/saga";
+import { watcherNews } from "./news/saga"
 
-export default [...watcherNews];
+export default [...watcherNews]

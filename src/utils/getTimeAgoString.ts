@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime)
 
 /**
  * Returns a human-readable string indicating the time elapsed since the given
@@ -16,5 +16,5 @@ dayjs.extend(relativeTime);
  *          date or timestamp
  */
 export function getTimeAgoString(createdAt: string | number | Date): string {
-  return dayjs(createdAt).fromNow();
+  return dayjs(createdAt).fromNow()
 }

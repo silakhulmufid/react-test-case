@@ -1,10 +1,10 @@
-import { Flex, Image, Typography } from "antd";
-import type { NewsData } from "../../store/news/type";
-import { Link } from "react-router";
-import { createSlug, getTimeAgoString } from "../../utils";
-import classnames from "classnames";
-import { useAppDispatch } from "../../store/hooks";
-import { getArticle } from "../../store/news/action";
+import { Flex, Image, Typography } from "antd"
+import classnames from "classnames"
+import { Link } from "react-router"
+import { useAppDispatch } from "../../store/hooks"
+import { getArticle } from "../../store/news/action"
+import type { NewsData } from "../../store/news/type"
+import { createSlug, getTimeAgoString } from "../../utils"
 
 export function HorizontalCard({
   article,
@@ -13,32 +13,36 @@ export function HorizontalCard({
   imageContainerClassName = "",
   className,
 }: {
-  article: NewsData;
-  imagePosition?: "left" | "right";
-  size?: "small" | "large";
-  imageContainerClassName?: string;
-  className?: string;
+  article: NewsData
+  imagePosition?: "left" | "right"
+  size?: "small" | "large"
+  imageContainerClassName?: string
+  className?: string
 }) {
-  const dispatch = useAppDispatch();
-  const titleSlug = createSlug(article.title as string);
+  const dispatch = useAppDispatch()
+  const titleSlug = createSlug(article.title as string)
 
   if (size === "small") {
     return (
       <Link
         to={`/article?slug=${titleSlug}`}
         onClick={() => dispatch(getArticle(article))}
-        className={classnames("group flex gap-2 border-b-1", {
-          "flex-row-reverse": imagePosition === "left",
-        }, className)}
+        className={classnames(
+          "border-b-1 group flex gap-2",
+          {
+            "flex-row-reverse": imagePosition === "left",
+          },
+          className
+        )}
       >
         <Flex vertical justify="center" gap={0} className="w-full">
-          <Typography.Text type="secondary" className="text-xs mb-0">
+          <Typography.Text type="secondary" className="mb-0 text-xs">
             {getTimeAgoString(article.publishedAt || "")} |{" "}
             {article.source?.name}
           </Typography.Text>
           <Typography.Title
             level={5}
-            className=" line-clamp-2 group-hover:underline"
+            className="line-clamp-2 group-hover:underline"
             style={{ marginTop: 8 }}
           >
             {article.title}
@@ -46,7 +50,7 @@ export function HorizontalCard({
         </Flex>
         <Flex
           flex="none"
-          className={classnames("h-20 aspect-video", imageContainerClassName)}
+          className={classnames("aspect-video h-20", imageContainerClassName)}
         >
           <Image
             height="100%"
@@ -57,16 +61,20 @@ export function HorizontalCard({
           />
         </Flex>
       </Link>
-    );
+    )
   }
 
   return (
     <Link
       to={`/article?slug=${titleSlug}`}
       onClick={() => dispatch(getArticle(article))}
-      className={classnames("group flex gap-4 border-b-1", {
-        "flex-row-reverse": imagePosition === "left",
-      }, className)}
+      className={classnames(
+        "border-b-1 group flex gap-4",
+        {
+          "flex-row-reverse": imagePosition === "left",
+        },
+        className
+      )}
     >
       <Flex vertical justify="center" gap={0}>
         <Typography.Title level={2} className="group-hover:underline">
@@ -81,7 +89,7 @@ export function HorizontalCard({
       </Flex>
       <Flex
         flex="none"
-        className={classnames("h-72 aspect-video", imageContainerClassName)}
+        className={classnames("aspect-video h-72", imageContainerClassName)}
       >
         <Image
           height="100%"
@@ -92,7 +100,7 @@ export function HorizontalCard({
         />
       </Flex>
     </Link>
-  );
+  )
 }
 
-export default HorizontalCard;
+export default HorizontalCard

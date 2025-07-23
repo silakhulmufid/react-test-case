@@ -19,8 +19,8 @@ export const createSlug = (title = ""): string => {
     .replace(/[^a-z0-9]/g, "-")
     .replace(/-+/g, "-")
     .replace(/^-+/, "")
-    .replace(/-+$/, "");
-  return slug;
-};
+    .replace(/-+$/, "")
+  return slug
+}
 
-export default createSlug;
+export default createSlug

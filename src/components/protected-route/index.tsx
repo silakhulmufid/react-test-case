@@ -1,18 +1,18 @@
-import type { ReactNode } from "react";
-import { Navigate } from "react-router";
+import type { ReactNode } from "react"
+import { Navigate } from "react-router"
 
 interface Props {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export function ProtectedRoute({ children }: Props) {
-  const isAuthenticated = true;
+  const isAuthenticated = true
 
   if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace />
   }
 
-  return children;
+  return children
 }
 
-export default ProtectedRoute;
+export default ProtectedRoute

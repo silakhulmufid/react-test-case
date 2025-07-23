@@ -1,35 +1,35 @@
-import { useCallback, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { Col, Flex, Row } from "antd"
+import dayjs from "dayjs"
+import { useCallback, useEffect, useState } from "react"
+import { useParams } from "react-router"
+import { Loader } from "../../components"
+import HorizontalCard from "../../components/cards/horizontal-card"
+import VerticalCard from "../../components/cards/vertical-card"
+import { InfiniteScrollTrigger } from "../../components/infinite-scroll"
+import { useBreakpoint } from "../../hooks"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import {
   getInfiniteNews,
   getNews,
   getNewsTopHeadlines,
-} from "../../store/news/action";
-import { Flex, Row, Col } from "antd";
-import { useParams } from "react-router";
+} from "../../store/news/action"
 import type {
   IMetaNewsResponse,
   NewsData,
   TCategory,
-} from "../../store/news/type";
-import { Loader } from "../../components";
-import HorizontalCard from "../../components/cards/horizontal-card";
-import VerticalCard from "../../components/cards/vertical-card";
-import { useBreakpoint } from "../../hooks";
-import { InfiniteScrollTrigger } from "../../components/infinite-scroll";
-import dayjs from "dayjs";
+} from "../../store/news/type"
 
 export default function Home() {
-  const [dataSize, setDataSize] = useState<number>(10);
-  const news = useAppSelector((state) => state.news);
-  const dispatch = useAppDispatch();
-  const params = useParams();
-  const { md } = useBreakpoint();
-  const category = params.category || "news";
-  const dataKey = category === "news" ? "data" : category;
+  const [dataSize, setDataSize] = useState<number>(10)
+  const news = useAppSelector((state) => state.news)
+  const dispatch = useAppDispatch()
+  const params = useParams()
+  const { md } = useBreakpoint()
+  const category = params.category || "news"
+  const dataKey = category === "news" ? "data" : category
 
   useEffect(() => {
-    setDataSize(9);
+    setDataSize(9)
 
     dispatch(
       getNews({
@@ -40,8 +40,8 @@ export default function Home() {
         pageSize: 10,
         page: 1,
       })
-    );
-  }, [dispatch, category]);
+    )
+  }, [dispatch, category])
 
   useEffect(() => {
     dispatch(
@@ -50,19 +50,19 @@ export default function Home() {
         pageSize: 4,
         page: 1,
       })
-    );
-  }, [dispatch, category]);
+    )
+  }, [dispatch, category])
 
-  const currentData: IMetaNewsResponse = news?.[dataKey];
+  const currentData: IMetaNewsResponse = news?.[dataKey]
   const hasMore = currentData?.articles
     ? (currentData?.articles?.length || 0) < (currentData.totalResults || 0) &&
       dataSize < 100
-    : false;
+    : false
 
   const loadMoreItems = useCallback(async () => {
-    const newSize = dataSize + 30;
-    const checkedSize = newSize > 100 ? 100 : newSize;
-    setDataSize(checkedSize);
+    const newSize = dataSize + 30
+    const checkedSize = newSize > 100 ? 100 : newSize
+    setDataSize(checkedSize)
 
     if (hasMore) {
       dispatch(
@@ -74,16 +74,16 @@ export default function Home() {
           pageSize: checkedSize,
           page: 1,
         })
-      );
+      )
     }
-  }, [dispatch, category, dataSize]);
+  }, [dispatch, category, dataSize])
 
   if (news.loading) {
-    return <Loader />;
+    return <Loader />
   }
 
   return (
-    <div className="relative space-y-4 min-h-screen w-screen max-w-6xl overflow-hidden px-4 pt-28 pb-16 md:px-20">
+    <div className="relative min-h-screen w-screen max-w-6xl space-y-4 overflow-hidden px-4 pb-16 pt-28 md:px-20">
       <Row gutter={[16, 16]}>
         <Col span={24} lg={14}>
           <VerticalCard
@@ -101,7 +101,7 @@ export default function Home() {
                     size="small"
                   />
                 </Flex>
-              );
+              )
             }
           )}
         </Col>
@@ -114,14 +114,14 @@ export default function Home() {
                 <HorizontalCard article={article} className="hidden md:flex" />
                 <VerticalCard article={article} className="block md:hidden" />
               </Col>
-            );
+            )
           }
           if (!(index % 5 === 0) && index <= 20) {
             return (
               <Col key={index} span={12} md={6}>
                 <VerticalCard article={article} />
               </Col>
-            );
+            )
           }
 
           if (!md) {
@@ -133,7 +133,7 @@ export default function Home() {
                   size="small"
                 />
               </Flex>
-            );
+            )
           }
 
           return (
@@ -144,7 +144,7 @@ export default function Home() {
                 imageContainerClassName="h-40"
               />
             </Col>
-          );
+          )
         })}
       </Row>
       {(currentData?.articles?.length || 0) > 0 && (
@@ -157,5 +157,5 @@ export default function Home() {
         />
       )}
     </div>
-  );
+  )
 }

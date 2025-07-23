@@ -18,4 +18,3 @@ console.log(reverseString("NEGIE21")) // EIGEN21
 console.log(reverseString("NE3GIE21")) // EIGEN321
 console.log(reverseString("N4E3GIE21")) // EIGEN4321
 console.log(reverseString("5N4E3GIE21")) // EIGEN54321
-

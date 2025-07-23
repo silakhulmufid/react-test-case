@@ -1,22 +1,22 @@
 // NavigationHandler.tsx
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useEffect } from "react"
+import { useNavigate } from "react-router"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
 
 export const NavigationHandler = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const path = useAppSelector((state) => state.navigation.path);
+  const path = useAppSelector((state) => state.navigation.path)
 
   useEffect(() => {
     if (path) {
-      navigate(path);
-      dispatch({ type: "CLEAR_NAVIGATION" });
+      navigate(path)
+      dispatch({ type: "CLEAR_NAVIGATION" })
     }
-  }, [path]);
+  }, [path])
 
-  return null;
-};
+  return null
+}
 
-export default NavigationHandler;
+export default NavigationHandler

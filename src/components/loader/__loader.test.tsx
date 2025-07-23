@@ -1,9 +1,9 @@
-import { expect, test } from "vitest";
-import { render } from "@testing-library/react";
-import { Loader } from ".";
+import { render } from "@testing-library/react"
+import { expect, test } from "vitest"
+import { Loader } from "."
 
 test("renders loader component", () => {
-  const { container } = render(<Loader />);
+  const { container } = render(<Loader />)
 
-  expect(container.querySelectorAll("span").length).toBeGreaterThan(0);
-});
+  expect(container.querySelectorAll("span").length).toBeGreaterThan(0)
+})

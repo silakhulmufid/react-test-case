@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { useMediaQuery } from "react-responsive";
+import { useMediaQuery } from "react-responsive"
 
 /**
  * React hook that returns an object with boolean values indicating whether
@@ -18,13 +18,13 @@ import { useMediaQuery } from "react-responsive";
  * @returns an object with boolean values for each breakpoint
  */
 export function useBreakpoint() {
-  const sm = useMediaQuery({ query: "(min-width: 640px)" });
-  const md = useMediaQuery({ query: "(min-width: 768px)" });
-  const lg = useMediaQuery({ query: "(min-width: 1024px)" });
-  const xl = useMediaQuery({ query: "(min-width: 1280px)" });
-  const xxl = useMediaQuery({ query: "(min-width: 2080px)" });
+  const sm = useMediaQuery({ query: "(min-width: 640px)" })
+  const md = useMediaQuery({ query: "(min-width: 768px)" })
+  const lg = useMediaQuery({ query: "(min-width: 1024px)" })
+  const xl = useMediaQuery({ query: "(min-width: 1280px)" })
+  const xxl = useMediaQuery({ query: "(min-width: 2080px)" })
 
-  return { sm, md, lg, xl, xxl };
+  return { sm, md, lg, xl, xxl }
 }
 
 export default useBreakpoint

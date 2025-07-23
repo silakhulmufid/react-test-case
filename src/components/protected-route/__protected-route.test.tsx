@@ -1,7 +1,7 @@
-import { render } from "@testing-library/react";
-import { ProtectedRoute } from ".";
-import { MemoryRouter } from "react-router";
-import { describe, expect, it } from "vitest";
+import { render } from "@testing-library/react"
+import { MemoryRouter } from "react-router"
+import { describe, expect, it } from "vitest"
+import { ProtectedRoute } from "."
 
 describe("ProtectedRoute", () => {
   it("renders children when authenticated", () => {
@@ -10,8 +10,8 @@ describe("ProtectedRoute", () => {
         <ProtectedRoute>
           <div>Protected Content</div>
         </ProtectedRoute>
-      </MemoryRouter>,
-    );
-    expect(getByText("Protected Content")).toBeInTheDocument();
-  });
-});
+      </MemoryRouter>
+    )
+    expect(getByText("Protected Content")).toBeInTheDocument()
+  })
+})

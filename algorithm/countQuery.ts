@@ -11,7 +11,7 @@
  *          string in QUERY.
  */
 export function countQuery(INPUT: string[], QUERY: string[]): number[] {
-    return QUERY.map((query) => INPUT.filter((input) => input === query).length);
+  return QUERY.map((query) => INPUT.filter((input) => input === query).length)
 }
 
-console.log(countQuery(["xc", "dz", "bbb", "dz"], ["bbb", "ac", "dz"])); // [1, 0, 2]
+console.log(countQuery(["xc", "dz", "bbb", "dz"], ["bbb", "ac", "dz"])) // [1, 0, 2]

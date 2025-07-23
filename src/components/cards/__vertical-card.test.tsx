@@ -1,9 +1,9 @@
-import { render } from "@testing-library/react";
-import VerticalCard from "./vertical-card";
-import { MemoryRouter } from "react-router";
-import { describe, expect, it } from "vitest";
-import { Provider } from "react-redux";
-import { store } from "../../store";
+import { render } from "@testing-library/react"
+import { Provider } from "react-redux"
+import { MemoryRouter } from "react-router"
+import { describe, expect, it } from "vitest"
+import { store } from "../../store"
+import VerticalCard from "./vertical-card"
 
 const mockArticle = {
   url: "https://example.com/news",
@@ -15,48 +15,46 @@ const mockArticle = {
   author: "John Doe",
   content:
     "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam quaerat nisi unde repudiandae perspiciatis velit illum similique voluptate vero ducimus quibusdam numquam, at, aut incidunt culpa dolores provident consectetur a iste. Aut perferendis asperiores porro mollitia eligendi id sint sit unde. Iure id quis quas, quaerat autem ea laborum suscipit?",
-};
+}
 
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
-      <MemoryRouter>
-        {component}
-      </MemoryRouter>
+      <MemoryRouter>{component}</MemoryRouter>
     </Provider>
-  );
-};
+  )
+}
 
 describe("VerticalCard", () => {
   it("renders article data correctly", () => {
     const { getByText, getByRole } = renderWithProviders(
       <VerticalCard article={mockArticle} />
-    );
+    )
 
-    expect(getByText(mockArticle.title)).toBeInTheDocument();
-    expect(getByText(mockArticle.description)).toBeInTheDocument();
-    expect(getByText(/Example Source/)).toBeInTheDocument();
+    expect(getByText(mockArticle.title)).toBeInTheDocument()
+    expect(getByText(mockArticle.description)).toBeInTheDocument()
+    expect(getByText(/Example Source/)).toBeInTheDocument()
 
-    const image = getByRole("img");
-    expect(image).toHaveAttribute("src", mockArticle.urlToImage);
-  });
+    const image = getByRole("img")
+    expect(image).toHaveAttribute("src", mockArticle.urlToImage)
+  })
 
   it("renders with custom className", () => {
-    const customClass = "custom-card-class";
+    const customClass = "custom-card-class"
     const { container } = renderWithProviders(
       <VerticalCard article={mockArticle} className={customClass} />
-    );
+    )
 
-    const linkElement = container.querySelector("a");
-    expect(linkElement).toHaveClass(customClass);
-  });
+    const linkElement = container.querySelector("a")
+    expect(linkElement).toHaveClass(customClass)
+  })
 
   it("creates correct link path", () => {
     const { container } = renderWithProviders(
       <VerticalCard article={mockArticle} />
-    );
+    )
 
-    const linkElement = container.querySelector("a");
-    expect(linkElement).toHaveAttribute("href", "/article/example-news-title");
-  });
-});
+    const linkElement = container.querySelector("a")
+    expect(linkElement).toHaveAttribute("href", "/article/example-news-title")
+  })
+})

@@ -1,2 +1,2 @@
-export * from "./horizontal-card";
-export * from "./vertical-card";
+export * from "./horizontal-card"
+export * from "./vertical-card"

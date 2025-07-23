@@ -1,27 +1,27 @@
-import { Flex, Image, Typography } from "antd";
-import type { NewsData } from "../../store/news/type";
-import { Link } from "react-router";
-import { createSlug, getTimeAgoString } from "../../utils";
-import classnames from "classnames";
-import { useDispatch } from "react-redux";
-import { getArticle } from "../../store/news/action";
+import { Flex, Image, Typography } from "antd"
+import classnames from "classnames"
+import { useDispatch } from "react-redux"
+import { Link } from "react-router"
+import { getArticle } from "../../store/news/action"
+import type { NewsData } from "../../store/news/type"
+import { createSlug, getTimeAgoString } from "../../utils"
 
 export function VerticalCard({
   article,
   className,
 }: {
-  article: NewsData;
-  className?: string;
+  article: NewsData
+  className?: string
 }) {
-  const dispatch = useDispatch();
-  const titleSlug = createSlug(article.title as string);
+  const dispatch = useDispatch()
+  const titleSlug = createSlug(article.title as string)
   return (
     <Link
       to={`/article?slug=${titleSlug}`}
       onClick={() => dispatch(getArticle(article))}
-      className={classnames("group space-y-2 border-b-1", className)}
+      className={classnames("border-b-1 group space-y-2", className)}
     >
-      <Flex flex="none" className="w-full aspect-video">
+      <Flex flex="none" className="aspect-video w-full">
         <Image
           height="100%"
           width="100%"
@@ -41,7 +41,7 @@ export function VerticalCard({
         </Typography.Text>
       </Flex>
     </Link>
-  );
+  )
 }
 
-export default VerticalCard;
+export default VerticalCard

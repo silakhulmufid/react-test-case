@@ -1,8 +1,8 @@
-import { useMediaQuery } from "react-responsive";
-import { ScaleLoader } from "react-spinners";
+import { useMediaQuery } from "react-responsive"
+import { ScaleLoader } from "react-spinners"
 
 export function Loader() {
-  const md = useMediaQuery({ query: "(min-width: 768px)" });
+  const md = useMediaQuery({ query: "(min-width: 768px)" })
 
   return (
     <div className="flex h-screen w-screen items-center justify-center">
@@ -13,7 +13,7 @@ export function Loader() {
         color="#000"
       />
     </div>
-  );
+  )
 }
 
-export default Loader;
+export default Loader

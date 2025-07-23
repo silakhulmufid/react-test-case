@@ -1,22 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { getInfiniteNews, getNews } from "../../store/news/action";
-import { Row, Col } from "antd";
-import { useSearchParams } from "react-router";
-import type { NewsData } from "../../store/news/type";
-import { Loader } from "../../components";
-import { HorizontalCard } from "../../components";
-import { InfiniteScrollTrigger } from "../../components/infinite-scroll";
-import dayjs from "dayjs";
-import { useBreakpoint } from "../../hooks";
+import { Col, Row } from "antd"
+import dayjs from "dayjs"
+import { useCallback, useEffect, useState } from "react"
+import { useSearchParams } from "react-router"
+import { HorizontalCard, Loader } from "../../components"
+import { InfiniteScrollTrigger } from "../../components/infinite-scroll"
+import { useBreakpoint } from "../../hooks"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { getInfiniteNews, getNews } from "../../store/news/action"
+import type { NewsData } from "../../store/news/type"
 
 export default function Search() {
-  const [dataSize, setDataSize] = useState<number>(10);
-  const { md } = useBreakpoint();
-  const news = useAppSelector((state) => state.news);
-  const dispatch = useAppDispatch();
-  const [searchParams] = useSearchParams();
-  const q = searchParams.get("q");
+  const [dataSize, setDataSize] = useState<number>(10)
+  const { md } = useBreakpoint()
+  const news = useAppSelector((state) => state.news)
+  const dispatch = useAppDispatch()
+  const [searchParams] = useSearchParams()
+  const q = searchParams.get("q")
 
   useEffect(() => {
     dispatch(
@@ -28,18 +27,18 @@ export default function Search() {
         pageSize: 10,
         page: 1,
       })
-    );
-  }, [dispatch]);
+    )
+  }, [dispatch])
 
   const hasMore = news.data?.articles
     ? (news.data?.articles?.length || 0) < (news.data.totalResults || 0) &&
       dataSize < 100
-    : false;
+    : false
 
   const loadMoreItems = useCallback(async () => {
-    const newSize = dataSize + 30;
+    const newSize = dataSize + 30
     const checkedSize = newSize > 100 ? 100 : newSize
-    setDataSize(checkedSize);
+    setDataSize(checkedSize)
 
     if (hasMore) {
       dispatch(
@@ -51,16 +50,16 @@ export default function Search() {
           pageSize: checkedSize,
           page: 1,
         })
-      );
+      )
     }
-  }, [dispatch, q, dataSize]);
+  }, [dispatch, q, dataSize])
 
   if (news.loading) {
-    return <Loader />;
+    return <Loader />
   }
 
   return (
-    <div className="relative space-y-4 min-h-screen w-screen max-w-6xl overflow-hidden px-4 py-28 md:px-20">
+    <div className="relative min-h-screen w-screen max-w-6xl space-y-4 overflow-hidden px-4 py-28 md:px-20">
       <Row gutter={[16, 16]}>
         {news.data?.articles?.map((article: NewsData, index: number) => {
           return (
@@ -72,7 +71,7 @@ export default function Search() {
                 imageContainerClassName="md:h-32 lg:h-60"
               />
             </Col>
-          );
+          )
         })}
       </Row>
       {(news.data?.articles?.length || 0) > 0 && (
@@ -85,5 +84,5 @@ export default function Search() {
         />
       )}
     </div>
-  );
+  )
 }
