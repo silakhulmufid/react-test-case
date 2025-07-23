@@ -2,7 +2,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Suspense, useState } from "react";
 import { Link, Outlet, useParams } from "react-router";
 import { Loader } from "../components";
-import { Flex, Input } from "antd";
+import { Input } from "antd";
 import classnames from "classnames";
 import { SearchOutlined } from "@ant-design/icons";
 import { getNews } from "../store/news/action";

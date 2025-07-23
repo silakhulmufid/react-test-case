@@ -1,5 +1,3 @@
-import type { N } from "vitest/dist/chunks/environment.d.cL3nLXbE.js";
-
 export type TCategory =
   | "general"
   | "news"
