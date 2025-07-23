@@ -17,7 +17,7 @@ export function VerticalCard({
   const titleSlug = createSlug(article.title as string);
   return (
     <Link
-      to={`/article/${titleSlug}`}
+      to={`/article?slug=${titleSlug}`}
       onClick={() => dispatch(getArticle(article))}
       className={classnames("group space-y-2 border-b-1", className)}
     >

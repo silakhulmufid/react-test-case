@@ -25,7 +25,7 @@ export function HorizontalCard({
   if (size === "small") {
     return (
       <Link
-        to={`/article/${titleSlug}`}
+        to={`/article?slug=${titleSlug}`}
         onClick={() => dispatch(getArticle(article))}
         className={classnames("group flex gap-2 border-b-1", {
           "flex-row-reverse": imagePosition === "left",
@@ -62,7 +62,7 @@ export function HorizontalCard({
 
   return (
     <Link
-      to={`/article/${titleSlug}`}
+      to={`/article?slug=${titleSlug}`}
       onClick={() => dispatch(getArticle(article))}
       className={classnames("group flex gap-4 border-b-1", {
         "flex-row-reverse": imagePosition === "left",
