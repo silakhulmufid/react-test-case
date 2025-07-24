@@ -2,6 +2,7 @@ import axios from "axios"
 import queryString from "query-string"
 import { call, put, takeEvery } from "redux-saga/effects"
 import { baseUrlApi, newsApiKey } from "../../constant"
+import { setToast } from "../toast/action"
 import {
   GET_INFINITE_NEWS,
   GET_INFINITE_NEWS_FAILED,
@@ -37,9 +38,12 @@ function* workerSagaGetNews(action: IActionGetNews): any {
       throw new Error("Unexpected status code")
     }
   } catch (error: any) {
+    const message =
+      error?.response?.data?.message || error.message || "Unknown error"
+    yield put(setToast({ content: message, type: "error" }))
     yield put({
       type: GET_NEWS_FAILED,
-      error: error?.response?.data?.message || error.message || "Unknown error",
+      error: message,
     })
   }
 }
@@ -66,9 +70,12 @@ function* workerSagaGetInfiniteNews(action: IActionGetNews): any {
       throw new Error("Unexpected status code")
     }
   } catch (error: any) {
+    const message =
+      error?.response?.data?.message || error.message || "Unknown error"
+    yield put(setToast({ content: message, type: "error" }))
     yield put({
       type: GET_INFINITE_NEWS_FAILED,
-      error: error?.response?.data?.message || error.message || "Unknown error",
+      error: message,
     })
   }
 }
@@ -96,9 +103,12 @@ function* workerSagaGetNewsTopHeadlines(
       throw new Error("Unexpected status code")
     }
   } catch (error: any) {
+    const message =
+      error?.response?.data?.message || error.message || "Unknown error"
+    yield put(setToast({ content: message, type: "error" }))
     yield put({
       type: GET_NEWS_TOP_HEADLINES_FAILED,
-      error: error?.response?.data?.message || error.message || "Unknown error",
+      error: message,
     })
   }
 }

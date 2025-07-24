@@ -55,6 +55,9 @@ describe("VerticalCard", () => {
     )
 
     const linkElement = container.querySelector("a")
-    expect(linkElement).toHaveAttribute("href", "/article/example-news-title")
+    expect(linkElement).toHaveAttribute(
+      "href",
+      "/article?slug=example-news-title"
+    )
   })
 })
